@@ -11,6 +11,7 @@ namespace Screenshot
         public Smart_ScreenShots()
         {
             InitializeComponent();
+            this.TopMost = true;
 
             if (!System.IO.Directory.Exists($"{rootPath}"))
                 System.IO.Directory.CreateDirectory($"{rootPath}");
@@ -26,8 +27,9 @@ namespace Screenshot
         private void ScreenShot(object sender, EventArgs e)
         {
             string imageName = string.IsNullOrEmpty(this.Screenshot_Name.Text) ? imageCount.ToString() : this.Screenshot_Name.Text;
-            
-            _service.ScreenShot(this, imageName);
+            this.Hide();
+            _service.ScreenShot(imageName);
+            this.Show();
             this.Screenshot_Name.Text = string.Empty;
             imageCount++;
         }

@@ -57,18 +57,16 @@ namespace Screenshot
             System.Diagnostics.Process.Start($"{folderPath}\\{rootFolder}\\{documentName}.docx");
         }
 
-        public void ScreenShot(Smart_ScreenShots form, string imageName)
+        public void ScreenShot(string imageName)
         {
             Rectangle bounds = Screen.GetBounds(Point.Empty);
 
             using (Bitmap bitmap = new Bitmap(bounds.Width, bounds.Height))
-            {
-                form.Hide();
+            {                
                 using (Graphics g = Graphics.FromImage(bitmap))
                 {
                     g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
-                }
-                form.Show();
+                }             
 
                 string path = $"{imageTempPath}\\{imageName}.jpg";
 
