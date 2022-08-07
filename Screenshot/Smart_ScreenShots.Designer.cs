@@ -1,6 +1,6 @@
 ﻿namespace Screenshot
 {
-    partial class Form1
+    partial class Smart_ScreenShots
     {
         /// <summary>
         /// Required designer variable.
@@ -105,7 +105,7 @@
             this.Controls.Add(this.Start_Recording);
             this.Controls.Add(this.Capture_Screen);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Smart Screenshots";
             this.ResumeLayout(false);
             this.PerformLayout();
 

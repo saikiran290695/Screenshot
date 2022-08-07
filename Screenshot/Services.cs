@@ -52,7 +52,7 @@ namespace Screenshot
             System.Diagnostics.Process.Start(folderPath + $"\\{documentName}.docx");
         }
 
-        public void ScreenShot(Form1 form, string imageName)
+        public void ScreenShot(Smart_ScreenShots form, string imageName)
         {
             Rectangle bounds = Screen.GetBounds(Point.Empty);
 

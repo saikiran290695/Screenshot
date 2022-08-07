@@ -3,11 +3,11 @@ using System.Windows.Forms;
 
 namespace Screenshot
 {
-    public partial class Form1 : Form
+    public partial class Smart_ScreenShots : Form
     {
         private Services _service;
         private static int imageCount { get; set; }
-        public Form1()
+        public Smart_ScreenShots()
         {
             InitializeComponent();                      
             _service = new Services(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Document",
