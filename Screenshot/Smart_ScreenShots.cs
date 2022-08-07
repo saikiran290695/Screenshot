@@ -6,16 +6,21 @@ namespace Screenshot
     public partial class Smart_ScreenShots : Form
     {
         private Services _service;
-        private static int imageCount { get; set; }
+        private static int imageCount { get; set; }        
+        private static string rootPath { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\SmartScreenshots";
         public Smart_ScreenShots()
         {
-            InitializeComponent();                      
-            _service = new Services(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Document",
-                Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\images");
+            InitializeComponent();
+
+            if (!System.IO.Directory.Exists($"{rootPath}"))
+                System.IO.Directory.CreateDirectory($"{rootPath}");
+            _service = new Services(rootPath);            
+            
             resetForm();
         }
         private void Start_Recording_Click(object sender, EventArgs e)
         {
+            _service.setFolderName($"{DateTime.Now.ToString("MM-dd-yyyy-HH_mm_ss")}");
             initiateRecording();                        
         }
         private void ScreenShot(object sender, EventArgs e)
@@ -29,7 +34,7 @@ namespace Screenshot
 
         private void Stop_Recording_Click(object sender, EventArgs e)
         {            
-            _service.InsertImage("testData");
+            _service.InsertImage($"{DateTime.Now.ToString("MM-dd-yyyy-HH_mm_ss")}");
             _service.dispose();
             resetForm();
         }   
