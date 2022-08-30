@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Screenshot
@@ -24,12 +25,13 @@ namespace Screenshot
             _service.setFolderName($"{DateTime.Now.ToString("MM-dd-yyyy-HH_mm_ss")}");
             initiateRecording();                        
         }
-        private void ScreenShot(object sender, EventArgs e)
+        private async void ScreenShot(object sender, EventArgs e)
         {
             string imageName = string.IsNullOrEmpty(this.Screenshot_Name.Text) ? imageCount.ToString() : this.Screenshot_Name.Text;
-            this.Hide();
+            Visible = false;            
+            await Task.Delay(500);
             _service.ScreenShot(imageName);
-            this.Show();
+            Visible = true;            
             this.Screenshot_Name.Text = string.Empty;
             imageCount++;
         }

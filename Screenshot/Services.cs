@@ -49,7 +49,7 @@ namespace Screenshot
                 DocPicture Pic = p.AppendPicture(Image.FromFile(imagesPath[key]));
                 Pic.Width = Image.FromFile(imagesPath[key]).Width / 3;
                 Pic.Height = Image.FromFile(imagesPath[key]).Height / 3;
-                p.AppendBreak(BreakType.LineBreak);
+                p.AppendBreak(BreakType.LineBreak);     
                 
                 document.SaveToFile($"{folderPath}\\{rootFolder}\\{documentName}.docx", FileFormat.Docx);
             };
