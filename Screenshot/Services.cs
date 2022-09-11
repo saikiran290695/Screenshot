@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace Screenshot
@@ -57,16 +58,33 @@ namespace Screenshot
             System.Diagnostics.Process.Start($"{folderPath}\\{rootFolder}\\{documentName}.docx");
         }
 
+        private static class Win32Native
+        {
+            public const int DESKTOPVERTRES = 0x75;
+            public const int DESKTOPHORZRES = 0x76;
+
+            [DllImport("gdi32.dll")]
+            public static extern int GetDeviceCaps(IntPtr hDC, int index);
+        }
+
         public void ScreenShot(string imageName)
         {
-            Rectangle bounds = Screen.GetBounds(Point.Empty);
 
-            using (Bitmap bitmap = new Bitmap(bounds.Width, bounds.Height))
-            {                
+            int width, height;
+            using (var g = Graphics.FromHwnd(IntPtr.Zero))
+            {
+                var hDC = g.GetHdc();
+                width = Win32Native.GetDeviceCaps(hDC, Win32Native.DESKTOPHORZRES);
+                height = Win32Native.GetDeviceCaps(hDC, Win32Native.DESKTOPVERTRES);
+                g.ReleaseHdc(hDC);
+            }
+            
+            using (Bitmap bitmap = new Bitmap(width, height))
+            {
                 using (Graphics g = Graphics.FromImage(bitmap))
                 {
-                    g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
-                }             
+                    g.CopyFromScreen(Point.Empty, Point.Empty, bitmap.Size);
+                }
 
                 string path = $"{imageTempPath}\\{imageName}.jpg";
 

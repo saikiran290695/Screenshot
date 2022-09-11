@@ -29,7 +29,7 @@ namespace Screenshot
         {
             string imageName = string.IsNullOrEmpty(this.Screenshot_Name.Text) ? imageCount.ToString() : this.Screenshot_Name.Text;
             Visible = false;            
-            await Task.Delay(500);
+            await Task.Delay(200);
             _service.ScreenShot(imageName);
             Visible = true;            
             this.Screenshot_Name.Text = string.Empty;
