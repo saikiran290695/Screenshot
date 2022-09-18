@@ -12,9 +12,14 @@ namespace Screenshot
 {
     internal class Services
     {
+        public class imageMeta
+        {
+            public string imagePath { get; set; }
+            public string imageTS { get; set; }
+        }
         private static string folderPath { get; set; }
         private static string imageTempPath { get; set; }
-        private static Dictionary<string, string> imagesPath { get; set; }
+        private static Dictionary<string, imageMeta> imagesPath { get; set; }
         private static string rootFolder { get; set; }
         
         public Services(string _folderPath)
@@ -22,7 +27,7 @@ namespace Screenshot
             folderPath = _folderPath;
             if (!System.IO.Directory.Exists(folderPath)) System.IO.Directory.CreateDirectory(folderPath);
             
-            imagesPath = new Dictionary<string, string>();
+            imagesPath = new Dictionary<string, imageMeta>();
         }
 
         public void setFolderName(string folderName)
@@ -44,12 +49,12 @@ namespace Screenshot
                 Paragraph p = s.AddParagraph();
 
                 p.AppendText($"Image - {key} \n");
-                p.AppendText($"Date - {DateTime.Now.ToString()}");
+                p.AppendText($"Date - {imagesPath[key].imageTS}");
                 p.AppendBreak(BreakType.LineBreak);
 
-                DocPicture Pic = p.AppendPicture(Image.FromFile(imagesPath[key]));
-                Pic.Width = Image.FromFile(imagesPath[key]).Width / 4;
-                Pic.Height = Image.FromFile(imagesPath[key]).Height / 4;
+                DocPicture Pic = p.AppendPicture(Image.FromFile(imagesPath[key].imagePath));
+                Pic.Width = Image.FromFile(imagesPath[key].imagePath).Width / 4;
+                Pic.Height = Image.FromFile(imagesPath[key].imagePath).Height / 4;
                 p.AppendBreak(BreakType.LineBreak);     
                 
                 document.SaveToFile($"{folderPath}\\{rootFolder}\\{documentName}.docx", FileFormat.Docx);
@@ -89,7 +94,7 @@ namespace Screenshot
                 string path = $"{imageTempPath}\\{imageName}.jpg";
 
                 bitmap.Save(@path, ImageFormat.Jpeg);
-                imagesPath.Add(imageName, path);
+                imagesPath.Add(imageName, new imageMeta(){imagePath = path, imageTS = DateTime.Now.ToString()});
             }
         }
 
